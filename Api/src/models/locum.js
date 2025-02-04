@@ -19,6 +19,7 @@ const locumSchema= new mongoose.Schema({
 }, { timestamps: true });
 
 const Locum = mongoose.model('Locum', locumSchema);
+
 export default Locum;
 
 //mongoose.Schema.Types.ObjectId is a type used to store a reference to another document in MongoDB.
