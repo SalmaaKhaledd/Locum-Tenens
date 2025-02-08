@@ -40,6 +40,8 @@ const UserSchema = new mongoose.Schema({
     },
   },
   availability: {
+    //array of dates 
+    //type: [Date],
     type: String,
     required: function () {
       return this.role === 'locum';
@@ -69,6 +71,7 @@ const UserSchema = new mongoose.Schema({
       return this.role === 'hospital';
     },
   },
+  //shifts: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Shift' }]  // References all shifts posted by the hospital
 },{timestamps: true});  
 
 const User = mongoose.model('User', UserSchema);  //create a model called User with the schema UserSchema

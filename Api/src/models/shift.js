@@ -4,27 +4,34 @@ import mongoose from "mongoose";
 const shiftSchema = new mongoose.Schema({
   hospital: { 
     type: mongoose.Schema.Types.ObjectId, 
-    ref: 'Hospital', 
+    ref: 'User', 
     required: true,
   },
   date: { 
     type: Date,
     required: true, 
   },
+  time: { 
+    type: String,
+    required: true, 
+  },
   specialty: { 
     type: String,
     required: true, 
   },
-  locum: { 
-    type: mongoose.Schema.Types.ObjectId, 
-    ref: 'Locum' 
-  }, // Reference to the locum booked for the shift
+  location: 
+  { type: String, required: true 
+  },
+  // locum: { 
+  //   type: mongoose.Schema.Types.ObjectId, 
+  //   ref: 'Locum' 
+  // }, // Reference to the locum booked for the shift
   status: { 
     type: String, 
     enum: ['Open', 'Filled', 'Closed'], 
     default: 'Open' 
   },
-  applicants: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Locum' }] // Locums who applied for this shift
+  //applicants: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Locum' }] // Locums who applied for this shift
 }, { timestamps: true });
 
 const Shift = mongoose.model('Shift', shiftSchema);
