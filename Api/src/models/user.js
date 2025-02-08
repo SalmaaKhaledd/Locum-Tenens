@@ -17,7 +17,8 @@ const UserSchema = new mongoose.Schema({
   }, 
   role: { 
     type: String, 
-    enum: ['locum', 'hospital'], 
+    enum: ['locum', 'hospital',], 
+    //default: 'locum',
     required: true 
   },
 },{timestamps: true});  

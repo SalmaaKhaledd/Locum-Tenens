@@ -5,6 +5,10 @@ import User from '../models/userModel.js';
 
 export const register = async (req, res) => {
    const { name, email, password, role } = req.body;
+    const validRoles = ["locum", "hospital"];
+   if (!validRoles.includes(role)) {
+      return res.status(400).json({ msg: "Invalid role" });
+    }
     try {
     const userExists = await User.findOne({ email });
     if (userExists) {
@@ -21,7 +25,9 @@ export const register = async (req, res) => {
     });
 
     await user.save();
-    res.status(200).cookie('access_token', token, {httpOnly: true,}).json({ msg: 'User registered successfully' });
+    const payload = { user: { id: user.id }, role: user.role };
+    const token = jwt.sign(payload, process.env.JWT_SECRET);
+    res.status(201).cookie('access_token', token, {httpOnly: true, sameSite: "strict"}).json({ msg: 'Registration Successful' });
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Registration failed');
@@ -54,4 +60,9 @@ export const login = async (req, res)=>{
     res.status(500).send('Server Error');
   }
 
+}
+
+export const logout= async (req, res )=>{
+  res.clearCookie("access_token");
+  res.json({msg:"Logged out successfully"});
 }
