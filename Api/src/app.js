@@ -15,7 +15,7 @@ app.use(express.json()); //parse json requests
 app.use(cookieParser()); //parse cookies
 
 app.use('/api/auth', authRoutes);
-
+app.use('/api/shift', shiftRoutes);
 
 export default app; 
 

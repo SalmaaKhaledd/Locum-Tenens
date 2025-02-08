@@ -18,8 +18,56 @@ const UserSchema = new mongoose.Schema({
   role: { 
     type: String, 
     enum: ['locum', 'hospital',], 
-    //default: 'locum',
     required: true 
+  },
+  specialization: {
+    type: String,
+    //dynamically sets whether a field is required based on the user’s role
+    required: function () {
+      return this.role === 'locum';
+    },
+  },
+  qualifications: {
+    type: String,
+    required: function () {
+      return this.role === 'locum';
+    },
+  },
+  experience: {
+    type: Number,
+    required: function () {
+      return this.role === 'locum';
+    },
+  },
+  availability: {
+    type: String,
+    required: function () {
+      return this.role === 'locum';
+    },
+  },
+  hospitalName: {
+    type: String,
+    required: function () {
+      return this.role === 'hospital';
+    },
+  },
+  department: {
+    type: String,
+    required: function () {
+      return this.role === 'hospital';
+    },
+  },
+  location: {
+    type: String,
+    required: function () {
+      return this.role === 'hospital';
+    },
+  },
+  contactInfo: {
+    type: String,
+    required: function () {
+      return this.role === 'hospital';
+    },
   },
 },{timestamps: true});  
 

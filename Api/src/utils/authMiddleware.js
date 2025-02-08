@@ -13,8 +13,8 @@ export const authUser = (req, res, next) => {
     res.status(401).json({error: 'Token is not valid'});
   }
 }
-//Checks if the user has the right role.
-//higher-order function that checks for different roles on different routes
+
+//Role-Based Access to Routes (RBAC)
 export const authRole = (roles) =>{
   return (req, res, next) => {
     if(!roles.includes(req.user.role)){
