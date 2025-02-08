@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 const applicationSchema = new mongoose.Schema({
    locum: { 
     type: mongoose.Schema.Types.ObjectId, 
-    ref: 'Locum', 
+    ref: 'User', 
     required: true 
   },
     shift: { 
