@@ -22,10 +22,10 @@ const shiftSchema = new mongoose.Schema({
   location: 
   { type: String, required: true 
   },
-  // locum: { 
-  //   type: mongoose.Schema.Types.ObjectId, 
-  //   ref: 'Locum' 
-  // }, // Reference to the locum booked for the shift
+  locum: { 
+    type: mongoose.Schema.Types.ObjectId, 
+    ref: 'User' 
+  },
   status: { 
     type: String, 
     enum: ['Open', 'Filled', 'Closed'], 
