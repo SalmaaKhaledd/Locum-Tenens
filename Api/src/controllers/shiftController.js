@@ -61,4 +61,3 @@ export const deleteShiftById = async (req, res) => {
   }
 };
 
-// Apply for a shift
