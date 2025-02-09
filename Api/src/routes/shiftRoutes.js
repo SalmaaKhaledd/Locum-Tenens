@@ -1,15 +1,13 @@
 import express from 'express';
 import { authUser,authRole } from '../utils/authMiddleware';
+import { createShift, getAllShifts, getShiftById, updateShiftById, deleteShiftById } from '../controllers/shiftController';
 
 const router = express.Router();
 
-//hospital create shift
-router.post("/create", authUser, authRole(['hospital']), (req, res) => {
-  res.json({ msg: "Shift created successfully" });
-});
-
-router.post("/apply", authUser, authRole(['locum']), (req, res) => {
-  res.json({ msg: "Application Submitted" });
-});
+router.post('/', authUser, authRole('hospital'), createShift);
+router.get('/',authUser, getAllShifts);
+router.get('/:id', authUser, getShiftById);
+router.put('/:id', authUser, authRole('hospital'), updateShiftById);
+router.delete('/:id', authUser, authRole('hospital'), deleteShiftById);
 
 export default router;
