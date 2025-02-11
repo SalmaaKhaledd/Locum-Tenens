@@ -1,8 +1,16 @@
-import Application from '../models/application';
+import Application from '../models/application.js';
+import Shift from '../models/shift.js';
 
 // Create a new application
 export const applyForShift = async (req, res) => {
   try {
+
+    const {shiftId}=req.body;
+    const shift=await Shift.findById(shiftId);
+    if(!shift) return res.status(400).json({msg:"Shift not found"});
+
+    const existingApplication= await Application.findOne({locum: req.user.id , shift: shiftId})
+    if(existingApplication) return res.status(400).json({msg:"You have already applied for this shift!"})
     const application = new Application({ ...req.body, locum: req.user.id });
     await application.save();
     if (!application) {
@@ -66,4 +74,18 @@ export const deleteApplicationById = async (req, res) => {
   }
 };
 
-
+export const updateApplicationStatus = async (req, res)=>{
+  try{
+    const {status} = req.body.status;
+    const application = await Application.findById(req.params.id);
+    if(!application) return res.status(400).json({msg: "Application not found"});
+    if (!['Accepted', 'Rejected'].includes(status)){
+      return res.status(400).json({msg:"Invalid Status"});
+    }
+    application.status = status;
+    await application.save();
+    res.status(200).json(application);
+  }catch (error) {
+    res.status(500).json({message: error.message});
+  }
+};

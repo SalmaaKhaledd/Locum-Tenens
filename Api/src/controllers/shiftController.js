@@ -3,7 +3,9 @@ import Shift from '../models/shift';
 // Create a new shift
 export const createShift = async (req, res) => {
   try {
-    //const { title, description, location, date, time, specialty } = req.body;
+    const { title, description, location, date, time, specialty } = req.body;
+    //ensure date is in the future
+    if(new Date(date)< new Date()) return res.status(400).json({message: "Shift date must be in the future"});
     const shift = new Shift({ ...req.body, hospital: req.user.id });
     await shift.save();
     res.status(201).json(shift);
@@ -15,7 +17,7 @@ export const createShift = async (req, res) => {
 // Get all shifts
 export const getAllShifts = async (req, res) => {
   try {
-    const shifts = await Shift.find();
+    const shifts = await Shift.find().populate("hospital", "hospitalProfile.hospitalName hospitalProfile.location");
     res.status(200).json(shifts);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -36,6 +38,7 @@ export const getShiftById = async (req, res) => {
 };
 
 // Update a shift by ID
+//TODO: do customization for the update
 export const updateShiftById = async (req, res) => {
   try {
     const shift = await Shift.findByIdAndUpdate(req.params.id, req.body, { new: true });
@@ -61,3 +64,4 @@ export const deleteShiftById = async (req, res) => {
   }
 };
 
+ 
