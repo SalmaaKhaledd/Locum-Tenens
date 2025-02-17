@@ -89,3 +89,15 @@ export const updateApplicationStatus = async (req, res)=>{
     res.status(500).json({message: error.message});
   }
 };
+
+export const viewApplicationStatus = async (req, res)=>{
+  try{
+    const application = await Application.findById(req.params.id);
+    if(!application) return res.status(400).json({msg: "Application not found"});
+    res.status(200).json(application.status);
+  }catch (error) {
+    res.status(500).json({message: error.message});
+  }
+}
+
+
